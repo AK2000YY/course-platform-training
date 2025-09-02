@@ -1,3 +1,4 @@
+import { env } from "@/data/env/server";
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
@@ -5,10 +6,10 @@ export default defineConfig({
   schema: "./src/drizzle/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
-    user: process.env.USER!,
-    password: process.env.PASSWORD!,
-    database: process.env.DATABASE!,
-    host: process.env.HOST!,
+    user: env.DB_USER,
+    password: env.DB_PASSWORD,
+    database: env.DB_DATABASE,
+    host: env.DB_HOST,
     ssl: false,
   },
   strict: true,
