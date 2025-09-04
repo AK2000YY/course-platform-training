@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { canAccessAdminPage } from "@/permissions/general";
+import { getCurrentUser } from "@/services/clerk";
 import {
   SignedIn,
   SignedOut,
@@ -31,12 +33,7 @@ function Navbar() {
           Course Platform
         </Link>
         <SignedIn>
-          <Link
-            className="px-2 hover:bg-accent/10 text-lg flex items-center"
-            href="/admin"
-          >
-            Admin
-          </Link>
+          <AdminLink />
           <Link
             className="px-2 hover:bg-accent/10 text-lg flex items-center"
             href="/courses"
@@ -69,5 +66,18 @@ function Navbar() {
         </SignedOut>
       </nav>
     </header>
+  );
+}
+
+async function AdminLink() {
+  const user = await getCurrentUser();
+  if (!canAccessAdminPage(user.role)) return null;
+  return (
+    <Link
+      className="px-2 hover:bg-accent/10 text-lg flex items-center"
+      href="/admin"
+    >
+      Admin
+    </Link>
   );
 }
