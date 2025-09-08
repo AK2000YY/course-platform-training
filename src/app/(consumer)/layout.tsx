@@ -25,9 +25,9 @@ export default function ConsumerLayout({
 function Navbar() {
   return (
     <header className="h-12 flex shadow bg-background z-10">
-      <nav className="container flex gap-4">
+      <nav className="container flex gap-4 m-auto">
         <Link
-          className="mr-auto px-2 text-lg hover:underline flex items-center"
+          className="mr-auto text-lg hover:underline flex items-center"
           href="/"
         >
           Course Platform
