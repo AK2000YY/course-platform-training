@@ -1,7 +1,7 @@
 import { getGlobalTag, getIdTag } from "@/lib/dataCach";
 import { revalidateTag } from "next/cache";
 
-export function getUserGlobalUser() {
+export function getUserGlobalTag() {
   return getGlobalTag("users");
 }
 
@@ -10,6 +10,6 @@ export function getUserIdTag(id: string) {
 }
 
 export function revalidateUserCache(id: string) {
-  revalidateTag(getUserGlobalUser());
+  revalidateTag(getUserGlobalTag());
   revalidateTag(getUserIdTag(id));
 }
