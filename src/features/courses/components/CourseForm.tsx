@@ -10,12 +10,14 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { RequiredLabelIcon } from "@/components/RequiredLabelIcon";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { createCourse } from "../actions/courses";
+import { toast } from "sonner";
 
 export function CourseForm() {
   const form = useForm<z.infer<typeof courseSchema>>({
@@ -26,8 +28,9 @@ export function CourseForm() {
     },
   });
 
-  const onSubmit = (value: z.infer<typeof courseSchema>) => {
-    createCourse(value);
+  const onSubmit = async (value: z.infer<typeof courseSchema>) => {
+    const data = await createCourse(value);
+    if (data.error) toast.error("Error", { description: data.message });
   };
 
   return (
@@ -48,6 +51,7 @@ export function CourseForm() {
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -62,7 +66,8 @@ export function CourseForm() {
               </FormLabel>
               <FormControl>
                 <Textarea className="min-h-20 resize-none" {...field} />
-              </FormControl>
+              </FormControl>{" "}
+              <FormMessage />
             </FormItem>
           )}
         />
