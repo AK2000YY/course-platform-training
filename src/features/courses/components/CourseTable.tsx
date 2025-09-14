@@ -67,6 +67,7 @@ export function CourseTable({
                 <ActionButton
                   variant={"destructive"}
                   action={deleteCourse.bind(null, course.id)}
+                  requireAreYouSure
                 >
                   <Trash2Icon /> <span className="sr-only">Delete</span>
                 </ActionButton>
