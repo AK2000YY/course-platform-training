@@ -1,6 +1,7 @@
 import { db } from "@/drizzle/db";
 import { CourseTable } from "@/drizzle/schema";
 import { revalidateCourseCache } from "./cache/courses";
+import { eq } from "drizzle-orm";
 
 export async function insertCourse(data: typeof CourseTable.$inferInsert) {
   const [newCourse] = await db.insert(CourseTable).values(data).returning();
@@ -12,4 +13,17 @@ export async function insertCourse(data: typeof CourseTable.$inferInsert) {
   revalidateCourseCache(newCourse.id);
 
   return newCourse;
+}
+
+export async function deleteCourse(id: string) {
+  const [deletedCourse] = await db
+    .delete(CourseTable)
+    .where(eq(CourseTable.id, id))
+    .returning();
+
+  if (!deletedCourse) throw new Error("Error delete Coures");
+
+  revalidateCourseCache(deletedCourse.id);
+
+  return deletedCourse;
 }
