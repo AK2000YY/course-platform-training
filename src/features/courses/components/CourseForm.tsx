@@ -16,21 +16,32 @@ import { RequiredLabelIcon } from "@/components/RequiredLabelIcon";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { createCourse } from "../actions/courses";
+import { createCourse, updateCourse } from "../actions/courses";
 import { toast } from "sonner";
 
-export function CourseForm() {
+export function CourseForm({
+  course,
+}: {
+  course?: {
+    id: string;
+    name: string;
+    description: string;
+  };
+}) {
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
-    defaultValues: {
+    defaultValues: course ?? {
       name: "",
       description: "",
     },
   });
 
   const onSubmit = async (value: z.infer<typeof courseSchema>) => {
-    const data = await createCourse(value);
+    const action = course ? updateCourse.bind(null, course.id) : createCourse;
+    const data = await action(value);
     if (data.error) toast.error("Error", { description: data.message });
+    if (data.error == false)
+      toast.success("Success", { description: data.message });
   };
 
   return (
