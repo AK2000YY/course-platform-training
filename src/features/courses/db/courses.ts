@@ -15,6 +15,25 @@ export async function insertCourse(data: typeof CourseTable.$inferInsert) {
   return newCourse;
 }
 
+export async function updateCourse(
+  id: string,
+  data: typeof CourseTable.$inferInsert
+) {
+  const [updatedCourse] = await db
+    .update(CourseTable)
+    .set(data)
+    .where(eq(CourseTable.id, id))
+    .returning();
+
+  if (!updatedCourse) {
+    throw new Error("Faild to update course");
+  }
+
+  revalidateCourseCache(updatedCourse.id);
+
+  return updatedCourse;
+}
+
 export async function deleteCourse(id: string) {
   const [deletedCourse] = await db
     .delete(CourseTable)
