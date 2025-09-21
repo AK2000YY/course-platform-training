@@ -57,3 +57,24 @@ export async function deleteSection(id: string) {
 
   return deletedSection;
 }
+
+export async function updateSectionsOrder(sectionsId: string[]) {
+  const sections = await Promise.all(
+    sectionsId.map((id, index) =>
+      db
+        .update(CourseSectionTable)
+        .set({ order: index })
+        .where(eq(CourseSectionTable.id, id))
+        .returning({
+          courseId: CourseSectionTable.courseId,
+          id: CourseSectionTable.id,
+        })
+    )
+  );
+
+  sections
+    .flat()
+    .forEach((section) =>
+      revalidateCourseSectionCache(section.id, section.courseId)
+    );
+}
