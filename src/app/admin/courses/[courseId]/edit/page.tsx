@@ -10,6 +10,7 @@ import { CourseForm } from "@/features/courses/components/CourseForm";
 import { getCourseIdTag } from "@/features/courses/db/cache/courses";
 import { deleteSection } from "@/features/courseSections/action/section";
 import { SectionFormDialog } from "@/features/courseSections/comopnents/SectionFormDialog";
+import { SortableSectionList } from "@/features/courseSections/comopnents/SortableSectionList";
 import { getCourseSectionCourseTag } from "@/features/courseSections/db/cache";
 import { getLessonCourseTag } from "@/features/lessons/db/cache/lesson";
 import { cn } from "@/lib/utils";
@@ -49,37 +50,10 @@ export default async function Page({
               </SectionFormDialog>
             </CardHeader>
             <CardContent>
-              {course.courseSections.map((section) => (
-                <div className="flex items-center gap-1" key={section.id}>
-                  <div
-                    className={cn(
-                      "contents",
-                      section.status == "private" && "text-muted-foreground"
-                    )}
-                  >
-                    {section.status == "private" && (
-                      <EyeClosed className="size-4" />
-                    )}
-                    {section.name}
-                  </div>
-                  <SectionFormDialog courseId={courseId} section={section}>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" size="sm" className="ml-auto">
-                        Edit
-                      </Button>
-                    </DialogTrigger>
-                  </SectionFormDialog>
-                  <ActionButton
-                    variant="destructive"
-                    requireAreYouSure
-                    size="sm"
-                    action={deleteSection.bind(null, section.id)}
-                  >
-                    <Trash2Icon />
-                    <span className="sr-only">Delete</span>
-                  </ActionButton>
-                </div>
-              ))}
+              <SortableSectionList
+                courseId={course.id}
+                sections={course.courseSections}
+              />
             </CardContent>
           </Card>
         </TabsContent>
