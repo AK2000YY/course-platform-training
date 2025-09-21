@@ -1,7 +1,6 @@
 "use server";
 
 import z from "zod";
-import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/services/clerk";
 import { sectionSchema } from "../schemas/sections";
 import {
@@ -14,6 +13,7 @@ import {
   insertSection,
   updateSection as dbUpdateSection,
   deleteSection as dbDeleteCoures,
+  updateSectionsOrder as dbUpdateSectionsOrder,
 } from "../db/section";
 
 export async function createSection(
@@ -70,5 +70,20 @@ export async function deleteSection(id: string) {
   return {
     error: false,
     message: "Successfuly delete your section",
+  };
+}
+
+export async function updateSectionsOrder(sectionsId: string[]) {
+  if (sectionsId.length === 0 || !canUpdateSection(await getCurrentUser()))
+    return {
+      error: true,
+      message: "error reordering your sections",
+    };
+
+  await dbUpdateSectionsOrder(sectionsId);
+
+  return {
+    error: false,
+    message: "successfully reordering your sections",
   };
 }
