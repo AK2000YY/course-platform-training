@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import { lessonSchema } from "../schema/lesson";
 import { Textarea } from "@/components/ui/textarea";
 import { createLesson, updateLesson } from "../action/lesson";
+import { YoutubeVideoPlayer } from "./YoutubeVideoPlayer";
 
 export function LessonForm({
   sections,
@@ -187,7 +188,11 @@ export function LessonForm({
             Save
           </Button>
         </div>
-        {/* {videoId && <YoutubeVideoPlayer videoId={videoId} />} */}
+        {videoId && (
+          <div className="aspect-video">
+            <YoutubeVideoPlayer videoId={videoId} />
+          </div>
+        )}
       </form>
     </Form>
   );
