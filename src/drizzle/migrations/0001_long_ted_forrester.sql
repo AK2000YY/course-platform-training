@@ -1,0 +1,1 @@
+ALTER TABLE "lessons" ALTER COLUMN "description" DROP NOT NULL;

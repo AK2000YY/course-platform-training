@@ -11,7 +11,7 @@ export const lessonStatusEnum = pgEnum("lesson_status", lessonStatuses);
 export const LessonTable = pgTable("lessons", {
   id,
   name: text("name").notNull(),
-  description: text("description").notNull(),
+  description: text("description"),
   youtubeVideoId: text("youtube_video_id").notNull(),
   order: integer("order").notNull(),
   status: lessonStatusEnum("status").notNull().default("private"),
