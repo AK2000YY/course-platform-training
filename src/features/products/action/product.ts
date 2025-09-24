@@ -1,3 +1,5 @@
+"use server";
+
 import z from "zod";
 import { productSchema } from "../schema/product";
 import { canCreateProducts, canDeleteProducts } from "../permisson/product";

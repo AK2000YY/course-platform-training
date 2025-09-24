@@ -75,5 +75,7 @@ export async function deleteProduct(id: string) {
 
   if (!deletedProduct) throw new Error("faild to delete product");
 
+  revalidateProductCache(deletedProduct.id);
+
   return deletedProduct;
 }
